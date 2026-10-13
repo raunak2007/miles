@@ -835,6 +835,7 @@ class _RecordingWeightUpdater:
             info.rollout_engines,
             engine_gpu_counts=info.engine_gpu_counts,
             engine_gpu_offsets=info.engine_gpu_offsets,
+            engine_cell_ids=info.engine_cell_ids,
         )
         self.conn_status.mark_reconnected(info.snapshot_cell_id_to_hashes)
 
