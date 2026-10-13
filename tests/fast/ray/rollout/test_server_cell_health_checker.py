@@ -4,7 +4,7 @@ import argparse
 import asyncio
 from collections.abc import Callable, Coroutine
 from typing import Any
-from unittest.mock import MagicMock
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from tests.fast.ray.rollout.conftest import make_args, track_server_cell
@@ -65,7 +65,7 @@ def _make_cell(*, ft_components: list[str], global_activeness: bool = True, **ar
         ServerCell(
             args=make_args(ft_components=ft_components, **arg_overrides),
             meta=_make_meta(),
-            router_api_client=MagicMock(),
+            router_api_client=MagicMock(remove_worker=AsyncMock()),
             provider=_StubProvider(),
             health_checker_activeness=lambda: ActiveAndEpoch(active=global_activeness, epoch=0),
         )
