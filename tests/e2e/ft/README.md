@@ -56,6 +56,7 @@
 - **The scheme is enforced, not remembered**: `compute_mode_name` derives a mode's name from its fields against an explicit naming-default table, and `tests/fast/e2e/ft/test_naming_scheme.py` fails when a name drifts from it.
 - **Declared per mode**: cell count, parallelism, model, train/rollout GPU split, `ft_components` (default `("train",)`). Every mode is disaggregated: training and rollout hold gpus of their own.
 - **No rollout engines**: modes with `rollout_num_engines == 0` train on pre-recorded debug rollout data.
+- **Witness records**: `get_ft_args` enables both the event analyzer and witness recording, including rollout-only FT modes. The analyzer requires a witness snapshot for every normal training step; rollout-only FT does not enable recording through trainer-FT defaults.
 
 | Mode | Nodes | GPUs (train + rollout) | DP cells | Parallelism | Rollout | Model | `ft_components` | Why it exists |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
