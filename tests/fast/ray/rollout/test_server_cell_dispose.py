@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -16,10 +17,14 @@ from miles.utils import retry_utils
 def instant_retry_sleeps(monkeypatch: pytest.MonkeyPatch) -> list[float]:
     """Make the unregister retry backoff free so a failing router costs no wall-clock time."""
     slept: list[float] = []
+    now = 0.0
 
     async def _sleep(seconds: float) -> None:
+        nonlocal now
         slept.append(seconds)
+        now += seconds
 
+    monkeypatch.setattr(retry_utils, "time", SimpleNamespace(monotonic=lambda: now))
     monkeypatch.setattr(retry_utils.asyncio, "sleep", _sleep)
     return slept
 
