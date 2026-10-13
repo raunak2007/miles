@@ -184,7 +184,9 @@ class TestUninstallIfPresent:
         monkeypatch.setattr(
             Helm,
             "run_raw",
-            lambda *_arguments, timeout=None: subprocess.CompletedProcess([], returncode=1, stdout="", stderr="forbidden"),
+            lambda *_arguments, timeout=None: subprocess.CompletedProcess(
+                [], returncode=1, stdout="", stderr="forbidden"
+            ),
         )
 
         with pytest.raises(RuntimeError, match="forbidden"):
