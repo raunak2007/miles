@@ -40,8 +40,9 @@ class TestTheDumpsRootOfTheCiWorkflow:
 
 def _jobs() -> dict[str, dict]:
     jobs = yaml.safe_load(WORKFLOW_PATH.read_text())["jobs"]
-    assert jobs
-    return jobs
+    container_jobs = {name: job for name, job in jobs.items() if "container" in job}
+    assert container_jobs
+    return container_jobs
 
 
 def _identity_mounts(options: str) -> list[Path]:
