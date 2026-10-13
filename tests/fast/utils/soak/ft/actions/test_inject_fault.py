@@ -232,19 +232,24 @@ class TestInjectFaultFormExecute:
         assert api.cell_replies[_ACTOR_0] == [404]
 
     @pytest.mark.parametrize("post", [500, "transport"])
-    async def test_an_unknown_submission_outcome_still_watches_for_the_effect(
+    async def test_an_unknown_submission_outcome_fails_without_reporting_an_effect(
         self, monkeypatch: pytest.MonkeyPatch, post: int | str
     ) -> None:
-        """A server error or lost reply may still have fired the fault, so the effect decides."""
+        """A server error or lost reply must fail without accepting an unrelated observed effect."""
         api = _FakeCellApi([])
         if isinstance(post, int):
             api.hook_status = post
         _patch_http(monkeypatch, _raising_hook_transport(api) if post == "transport" else api)
         form = _form()
 
-        [evidence] = await _execute(form, _create(form, _with_fault_target(_cell_target())))
+        reported: list[SoakActionEvidence] = []
+        error_type = httpx.TransportError if post == "transport" else httpx.HTTPStatusError
 
-        assert evidence.observed is ObservedCellFaultKind.MISSING
+        with pytest.raises(error_type):
+            await form.execute(
+                _create(form, _with_fault_target(_cell_target())), report_applied=reported.append
+            )
+        assert reported == []
 
     async def test_a_rejected_submission_fails_without_an_effect(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """A client error means the fault was refused, so nothing is reported applied."""
