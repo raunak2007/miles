@@ -13,7 +13,11 @@ from miles.utils.args.configs.algo import AlgoConfig, AlgoRolloutOnlyConfig
 from miles.utils.args.configs.backend_fields import RawTrainerBackendConfig, TrainerBackendTraitConfig
 from miles.utils.args.configs.ci import CiConfig, CiRolloutOnlyConfig
 from miles.utils.args.configs.cluster import ClusterConfig
-from miles.utils.args.configs.custom_megatron_plugins import CustomMegatronPluginsConfig, Dsv4MegatronPluginsConfig
+from miles.utils.args.configs.custom_megatron_plugins import (
+    CustomMegatronPluginsConfig,
+    DsaMegatronPluginsConfig,
+    Dsv4MegatronPluginsConfig,
+)
 from miles.utils.args.configs.dashboard import DashboardConfig
 from miles.utils.args.configs.data import DataConfig
 from miles.utils.args.configs.debug import DebugConfig, DebugRolloutOnlyConfig
@@ -65,6 +69,7 @@ class OrchestratorConfig(
     RolloutBufferConfig,
     CustomMegatronPluginsConfig,
     Dsv4MegatronPluginsConfig,
+    DsaMegatronPluginsConfig,
     MtpTrainingConfig,
     PrefillDecodeDisaggregationConfig,
     CiConfig,
@@ -99,6 +104,7 @@ class TrainerConfig(
     RolloutBufferConfig,
     CustomMegatronPluginsConfig,
     Dsv4MegatronPluginsConfig,
+    DsaMegatronPluginsConfig,
     MtpTrainingConfig,
     PrefillDecodeDisaggregationConfig,
     CiConfig,
@@ -176,6 +182,7 @@ class InferenceControllerConfig(
     RolloutBufferConfig,
     CustomMegatronPluginsConfig,
     Dsv4MegatronPluginsConfig,
+    DsaMegatronPluginsConfig,
     MtpTrainingConfig,
     PrefillDecodeDisaggregationConfig,
     CiConfig,
@@ -222,6 +229,7 @@ class RolloutConfig(
     RolloutBufferConfig,
     CustomMegatronPluginsConfig,
     Dsv4MegatronPluginsConfig,
+    DsaMegatronPluginsConfig,
     MtpTrainingConfig,
     PrefillDecodeDisaggregationConfig,
     CiConfig,
@@ -257,6 +265,7 @@ class MultiLoraConfig(
     RolloutBufferConfig,
     CustomMegatronPluginsConfig,
     Dsv4MegatronPluginsConfig,
+    DsaMegatronPluginsConfig,
     MtpTrainingConfig,
     PrefillDecodeDisaggregationConfig,
     CiConfig,
@@ -312,6 +321,7 @@ class AllConfig(
     CiRolloutOnlyConfig,
     CustomMegatronPluginsConfig,
     Dsv4MegatronPluginsConfig,
+    DsaMegatronPluginsConfig,
     RawTrainerBackendConfig,
     OrchestratorOnlyConfig,
     RolloutOnlyConfig,
