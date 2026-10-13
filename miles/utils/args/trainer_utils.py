@@ -1,7 +1,6 @@
 from argparse import Namespace
 
 from miles.backends.fsdp_utils.config import FsdpArgsNamespace
-from miles.backends.torchtitan_utils.args_namespace import TorchtitanArgsNamespace
 from miles.backends.megatron_utils.checkpoint_request import CHECKPOINT_LOAD_FIELDS, MegatronCheckpointLoad
 from miles.backends.megatron_utils.megatron_config import (
     CRITIC_ROLE,
@@ -10,6 +9,7 @@ from miles.backends.megatron_utils.megatron_config import (
     compute_trainer_args,
     compute_trainer_checkpoint_dir,
 )
+from miles.backends.torchtitan_utils.args_namespace import TorchtitanArgsNamespace
 from miles.utils.args.configs.backend_fields import TrainerBackendTraitConfig
 from miles.utils.args.configs.scaling import ScalingConfig
 from miles.utils.args.runtime import AllConfig, OrchestratorConfig, TrainerConfig
