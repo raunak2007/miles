@@ -246,9 +246,7 @@ class TestInjectFaultFormExecute:
         error_type = httpx.TransportError if post == "transport" else httpx.HTTPStatusError
 
         with pytest.raises(error_type):
-            await form.execute(
-                _create(form, _with_fault_target(_cell_target())), report_applied=reported.append
-            )
+            await form.execute(_create(form, _with_fault_target(_cell_target())), report_applied=reported.append)
         assert reported == []
 
     async def test_a_rejected_submission_fails_without_an_effect(self, monkeypatch: pytest.MonkeyPatch) -> None:
