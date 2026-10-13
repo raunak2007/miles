@@ -57,10 +57,35 @@ def _gather_object_onto_source(obj, object_gather_list=None, dst=None, group=Non
 
 
 class TestConnect:
+    @pytest.mark.parametrize(
+        "counts,offsets",
+        [([0], [0]), ([4], [-1]), ([2, 2], [0, 1]), ([2], [0])],
+    )
+    def test_fsdp_invalid_coverage_fails_before_groups_are_created(
+        self, counts: list[int], offsets: list[int]
+    ) -> None:
+        """FSDP IPC rejects nonpositive, negative, overlapping or incomplete layouts."""
+        protocol = self._make_protocol()
+        protocol.args.train_backend = "fsdp"
+        with patch(f"{_TENSOR_MODULE}.dist") as distributed:
+            distributed.get_world_size.return_value = 4
+            with pytest.raises(ValueError, match="FSDP colocated engines"):
+                protocol.connect(
+                    [MagicMock() for _ in counts],
+                    engine_gpu_counts=counts,
+                    engine_gpu_offsets=offsets,
+                    engine_cell_ids=[str(index) for index in range(len(counts))],
+                    parallel_state=SimpleNamespace(),
+                    placement=SimpleNamespace(),
+                    selector="all",
+                )
+            distributed.new_group.assert_not_called()
+
     @staticmethod
     def _make_protocol() -> UpdateWeightFromTensor:
         protocol = UpdateWeightFromTensor.__new__(UpdateWeightFromTensor)
         protocol.args = Namespace(
+            train_backend="megatron",
             rollout_num_gpus_per_engine=2,
             actor_num_nodes=1,
             actor_num_gpus_per_node=8,

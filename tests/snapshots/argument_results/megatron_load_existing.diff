@@ -6,9 +6,9 @@
 @@ -184 +184 @@
 -  load: null
 +  load: $FIXTURES/checkpoint
-@@ -673 +673 @@
+@@ -680 +680 @@
 -      load: null
 +      load: $FIXTURES/checkpoint
-@@ -1175 +1175 @@
+@@ -1183 +1183 @@
 -  requested_load: null
 +  requested_load: $FIXTURES/checkpoint
