@@ -74,6 +74,13 @@ class TestQueriesGiveUpOnBrokenCells:
         assignments = [RolloutEngineRankAssignment(rollout_engine_rank=0, rollout_engine_indices=[0])]
 
         assert model_replica_module.query_runner_roles({cell.cell_id: cell}, [cell.cell_id], assignments, "all") == ()
-        assert model_replica_module.query_rollout_engine_rank_configs({cell.cell_id: cell}, [cell.cell_id], assignments, "target") == {}
-        assert mooncake_module.MooncakeTransport().connect({cell.cell_id: cell}, [cell.cell_id], assignments, ["target"]) == {"target": {0: []}}
+        assert (
+            model_replica_module.query_rollout_engine_rank_configs(
+                {cell.cell_id: cell}, [cell.cell_id], assignments, "target"
+            )
+            == {}
+        )
+        assert mooncake_module.MooncakeTransport().connect(
+            {cell.cell_id: cell}, [cell.cell_id], assignments, ["target"]
+        ) == {"target": {0: []}}
         assert api.calls == []

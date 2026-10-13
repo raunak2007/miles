@@ -113,7 +113,11 @@ def query_rollout_engine_rank_configs(
     for assignment in assignments:
         configs = []
         for rollout_engine_ind in assignment.rollout_engine_indices:
-            config = _query_config(cell_updaters_of_cell_id[engine_cell_ids[rollout_engine_ind]], assignment.rollout_engine_rank, runner_role)
+            config = _query_config(
+                cell_updaters_of_cell_id[engine_cell_ids[rollout_engine_ind]],
+                assignment.rollout_engine_rank,
+                runner_role,
+            )
             if config is not None:
                 _assert_expert_placement_reproducible(config.server_args, rollout_engine_ind)
                 configs.append(config)
@@ -193,7 +197,8 @@ def query_runner_roles(
         _select_runner_roles(server_args, selector)
         for assignment in assignments
         for rollout_engine_ind in assignment.rollout_engine_indices
-        if (server_args := _query_server_args(cell_updaters_of_cell_id[engine_cell_ids[rollout_engine_ind]])) is not None
+        if (server_args := _query_server_args(cell_updaters_of_cell_id[engine_cell_ids[rollout_engine_ind]]))
+        is not None
     }
     if not distinct_runner_roles:
         return ()
